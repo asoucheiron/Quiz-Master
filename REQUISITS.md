@@ -180,41 +180,77 @@ Cada pantalla es descriu amb un codi `ES-x.x`, una descripció breu del seu prop
 
 ### ES-2.0 — Selecció de categoria
 
-**Propòsit**: en prémer "Jugar" des de la Home, es mostra un contenidor amb les categories disponibles perquè l'usuari triï amb què vol jugar.
+**Propòsit**: en prémer "Jugar" des de la Home, es navega a una pantalla pròpia amb les categories disponibles perquè l'usuari triï amb què vol jugar.
 
 **Elements**:
-- Contenidor (pantalla completa o modal — pendent de decidir) amb les categories:
-  - Països
-  - Ciutats
-  - Cultura general
-  - Trivial (barrejat)
+- Pantalla completa (no modal) amb les 4 categories com a targetes grans, cadascuna amb el seu color (secció 5.2):
+  - Països (verd)
+  - Ciutats (blau)
+  - Cultura general (lila)
+  - Trivial (degradat multicolor)
 
 **Navegació**:
-- Cada categoria → la seva pantalla de selecció de submode (p. ex. **ES-2.1** per Països).
+- Tocar una categoria → obre **ES-2.1** com a modal superposat (no navega a una pantalla nova pròpia).
+- Enrere → torna a **ES-1.0** (Home).
 
-**Estat**: 🟡 definides les categories, pendent decidir si és pantalla completa o modal, i el disseny visual.
+**Estat**: 🟡 contingut/funció definits, pendent el disseny visual.
 
 ---
 
-### ES-2.1 — Selecció de submode
+### ES-2.1 — Selecció de submode (modal)
 
-**Propòsit**: dins de qualsevol categoria, triar amb quin submode de joc es vol jugar. Com que a la v1 els submodes són els mateixos per a totes les categories (secció 5.2), aquesta pantalla és **el mateix patró reutilitzat per Països, Ciutats, Cultura general i Trivial** — no calen quatre disenys diferents.
+**Propòsit**: un cop triada la categoria, un **modal lleuger superposat** sobre ES-2.0 per triar el submode. Com que a la v1 els submodes són els mateixos per a totes les categories (secció 5.2), és el mateix modal reutilitzat per Països, Ciutats, Cultura general i Trivial.
 
 **Elements**:
 - Normal
 - 60 seconds
 
 **Navegació**:
-- Cada submode → pantalla de partida (**ES-3.x**, pendent d'especificar).
+- Tocar un submode → tanca el modal i comença **ES-3.0** (partida).
+- Tocar fora / enrere → tanca el modal, es queda a ES-2.0.
 
 **Estat**: 🟡 contingut/funció definits, pendent el disseny visual.
 
 ---
 
-### Pendents d'especificar
+### ES-3.0 — Pantalla de partida
 
-- [ ] ES-3.x — Pantalla de partida (pregunta de text + 4 opcions).
-- [ ] ES-4.x — Pantalla de resultat final (puntuació).
+**Propòsit**: mostrar les preguntes d'una en una i recollir la resposta de l'usuari.
+
+**Elements**:
+- Comptador de progrés (p. ex. "3/10").
+- **Barra de temps**: només visible si el submode és "60 seconds"; mostra el temps total restant (secció 5.2/7).
+- Enunciat de la pregunta.
+- 4 opcions de resposta com a botons.
+- **Feedback immediat**: en tocar una opció, aquesta es marca a l'instant en verd (si és correcta) o vermell (si és incorrecta); si l'usuari s'equivoca, l'opció correcta també es marca en verd al mateix moment, perquè es vegi quina era (com al disseny de referència de Ciutats).
+- Després d'una **breu pausa automàtica** (~1 segon) es passa sola a la pregunta següent — sense botó "Següent".
+
+**Navegació**:
+- En respondre l'última pregunta (i mostrar el seu feedback) → **ES-4.0** (resultat).
+
+**Estat**: 🟡 contingut/funció definits, pendent el disseny visual.
+
+---
+
+### ES-4.0 — Pantalla de resultat final
+
+**Propòsit**: mostrar com ha anat la partida i oferir continuar jugant.
+
+**Elements**:
+- Puntuació final (encerts sobre el total).
+- Botó **Tornar a jugar** (repeteix el mateix categoria + submode).
+- Botó **Sortir a l'inici**.
+- Sense "New Record" ni cap dada d'historial (backlog, secció 13).
+
+**Navegació**:
+- `Tornar a jugar` → torna a **ES-3.0** amb la mateixa categoria i submode.
+- `Sortir a l'inici` → **ES-1.0** (Home).
+
+**Estat**: 🟡 contingut/funció definits, pendent el disseny visual.
+
+---
+
+Totes les pantalles de la v1 (ES-1.0 a ES-4.0) tenen el contingut i comportament definits. Només queda pendent el disseny visual final de cadascuna (Canva).
 
 ## 13. Backlog (versions futures)
 
