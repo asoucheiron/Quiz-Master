@@ -151,15 +151,23 @@ El fitxer de contingut té un nivell superior amb la versió global i la llista 
 
 ## 11. Identitat visual
 
-- Logo ja definit (roda de colors en forma d'interrogant + text "quiz Master"), acceptat com a base de la marca — no necessita cap redisseny.
-- Paleta de colors principal: arc de Sant Martí / multicolor, estil juganer.
-- Fons de pantalla clar: to **menta** (`#E1F5EE` aprox.) triat per la pantalla d'inici.
-- Pendent aplicar-ho a la resta de la UI quan es dissenyin les pantalles.
-- **Nota de producció** (no és una decisió, és feina d'exportació quan toqui): en generar els fitxers d'icona de l'app per Android/iOS, cal preparar el logo en un **canvas quadrat** amb el disseny sagnant fins als marges (iOS aplica la seva pròpia màscara arrodonida sobre un fitxer quadrat, no sobre un cercle ja retallat).
+✅ **Sistema visual pràcticament definitiu** (maquetat i iterat com a artifact — veure conversa). Estil "sticker": contorn de tinta fosca i ombra sòlida desplaçada (sense difuminar) a totes les targetes, botons i el propi marc de pantalla, en lloc del típic flat + ombra suau. Lleugeres rotacions alternades a targetes i botons per un toc més manual/juganer.
+
+**Colors**:
+- Fons de totes les pantalles neutres (Home, selecció de categoria, resultat): **paper crema** `#FBF3E3`, amb un degradat suau de fons barrejant els colors de marca (radial-gradients molt difuminats) més taques orgàniques addicionals — substitueix la idea inicial de fons menta pla.
+- Tinta / contorn / text principal: `#211F3D`.
+- **Accent** (botó Jugar, Tornar a jugar, submode destacat, anella de puntuació): **coral** `#FF6B4D`.
+- **Països**: verd `#2FB380`. **Ciutats**: turquesa `#1CA3A3` (no blau — descartat per massa "SaaS genèric"). **Cultura general**: rosa `#E0447C`. **Trivial**: degradat multicolor reutilitzant els colors del logo.
+- Correcte: verd `#1E8F4E`. Incorrecte: vermell `#E63946`.
+- Logo ja definit (roda de colors en forma d'interrogant + text "quiz Master"), acceptat com a base de la marca — no necessita cap redisseny; és la font dels colors de marca reutilitzats arreu.
+
+**Tipografia**: Fredoka (títols, botons, wordmark) + Plus Jakarta Sans (text de cos).
+
+**Nota de producció** (no és una decisió, és feina d'exportació quan toqui): en generar els fitxers d'icona de l'app per Android/iOS, cal preparar el logo en un **canvas quadrat** amb el disseny sagnant fins als marges (iOS aplica la seva pròpia màscara arrodonida sobre un fitxer quadrat, no sobre un cercle ja retallat).
 
 ## 12. Especificació de pantalles (ES-x.x)
 
-Cada pantalla es descriu amb un codi `ES-x.x`, una descripció breu del seu propòsit, els elements que conté i cap a on navega. L'objectiu és tancar aquí el contingut i el comportament de cada pantalla abans de passar-les a Canva per al disseny visual final.
+Cada pantalla es descriu amb un codi `ES-x.x`, una descripció breu del seu propòsit, els elements que conté i cap a on navega. ✅ **El disseny visual de la v1 es considera pràcticament definitiu** (estil sticker + paleta de la secció 11, maquetat i iterat com a artifact — veure conversa); canviar-lo després d'implementar-lo seria costós, per això s'ha iterat a fons abans de tocar codi.
 
 ### ES-1.0 — Pantalla Home
 
@@ -169,12 +177,12 @@ Cada pantalla es descriu amb un codi `ES-x.x`, una descripció breu del seu prop
 - Logo / icona de Quiz Master (roda de colors + interrogant).
 - Wordmark "Quiz Master".
 - Botó primari **Jugar**.
-- Fons de color menta clar (`#E1F5EE` aprox.), sense elements addicionals.
+- Fons de paper crema amb degradat/taques de marca (secció 11), sense elements addicionals.
 
 **Navegació**:
 - `Jugar` → **ES-2.0** (selecció de categoria).
 
-**Estat**: ✅ tancat a nivell de contingut i maquetat com a artifact (sense Ajustos, veure conversa).
+**Estat**: ✅ tancat, contingut i disseny visual definitius (sense Ajustos, veure conversa).
 
 ---
 
@@ -183,23 +191,24 @@ Cada pantalla es descriu amb un codi `ES-x.x`, una descripció breu del seu prop
 **Propòsit**: en prémer "Jugar" des de la Home, es navega a una pantalla pròpia amb les categories disponibles perquè l'usuari triï amb què vol jugar.
 
 **Elements**:
-- Pantalla completa (no modal) amb les 4 categories com a targetes grans, cadascuna amb el seu color (secció 5.2):
+- Pantalla completa (no modal) amb les 4 categories com a targetes apilades, cadascuna amb el seu color (secció 5.2 i 11):
   - Països (verd)
-  - Ciutats (blau)
-  - Cultura general (lila)
+  - Ciutats (turquesa)
+  - Cultura general (rosa)
   - Trivial (degradat multicolor)
+- Títol "Elige categoría" centrat i gran, en una fila pròpia sota la fletxa d'enrere (no a la mateixa alçada).
 
 **Navegació**:
 - Tocar una categoria → obre **ES-2.1** com a modal superposat (no navega a una pantalla nova pròpia).
 - Enrere → torna a **ES-1.0** (Home).
 
-**Estat**: 🟡 contingut/funció definits, pendent el disseny visual.
+**Estat**: ✅ tancat, contingut i disseny visual definitius.
 
 ---
 
 ### ES-2.1 — Selecció de submode (modal)
 
-**Propòsit**: un cop triada la categoria, un **modal lleuger superposat** sobre ES-2.0 per triar el submode. Com que a la v1 els submodes són els mateixos per a totes les categories (secció 5.2), és el mateix modal reutilitzat per Països, Ciutats, Cultura general i Trivial.
+**Propòsit**: un cop triada la categoria, un **modal centrat** (targeta crema amb fons fosc semitransparent al darrere que enfosqueix tot ES-2.0) per triar el submode — **no és un bottom-sheet que puja des de baix**, apareix centrat verticalment i horitzontalment a la pantalla. Com que a la v1 els submodes són els mateixos per a totes les categories (secció 5.2), és el mateix modal reutilitzat per Països, Ciutats, Cultura general i Trivial.
 
 **Elements**:
 - Normal
@@ -209,7 +218,7 @@ Cada pantalla es descriu amb un codi `ES-x.x`, una descripció breu del seu prop
 - Tocar un submode → tanca el modal i comença **ES-3.0** (partida).
 - Tocar fora / enrere → tanca el modal, es queda a ES-2.0.
 
-**Estat**: 🟡 contingut/funció definits, pendent el disseny visual.
+**Estat**: ✅ tancat, contingut i disseny visual definitius.
 
 ---
 
@@ -228,7 +237,7 @@ Cada pantalla es descriu amb un codi `ES-x.x`, una descripció breu del seu prop
 **Navegació**:
 - En respondre l'última pregunta (i mostrar el seu feedback) → **ES-4.0** (resultat).
 
-**Estat**: 🟡 contingut/funció definits, pendent el disseny visual.
+**Estat**: 🟡 contingut definit; ja maquetada amb el sistema visual definitiu (secció 11), però pendent una última revisió explícita (les últimes iteracions de color/estil s'han validat sobretot a ES-1.0/2.0/2.1).
 
 ---
 
@@ -246,7 +255,7 @@ Cada pantalla es descriu amb un codi `ES-x.x`, una descripció breu del seu prop
 - `Tornar a jugar` → torna a **ES-3.0** amb la mateixa categoria i submode.
 - `Sortir a l'inici` → **ES-1.0** (Home).
 
-**Estat**: 🟡 contingut/funció definits, pendent el disseny visual.
+**Estat**: 🟡 contingut definit; ja maquetada amb el sistema visual definitiu (secció 11), però pendent una última revisió explícita (les últimes iteracions de color/estil s'han validat sobretot a ES-1.0/2.0/2.1).
 
 ---
 
@@ -266,3 +275,59 @@ Funcionalitats explorades però **descartades deliberadament d'aquesta primera v
 - Importació de quizzes per part de l'usuari (descartada per la v1, secció 4.1) — es podria revisitar si en el futur es vol permetre contingut extern.
 - Multi-idioma (interfície i/o contingut) — per la v1 tot és només en castellà (secció 4.1).
 - **Pantalla d'Ajustos** — descartada del tot per la v1 (sense idioma per triar, sense sentit un tema fosc amb la identitat visual actual de colors saturats, i cap altra opció real a configurar). Es revisita quan hi hagi alguna cosa concreta a oferir-hi (p. ex. so/música si s'afegeix, o un replantejament del sistema visual que faci sentir un tema fosc).
+
+### 13.1 Sistema de progressió / gamificació (v2)
+
+Proposta completa treballada per fer que el joc "enganxi" més enllà de la puntuació d'una partida — **conscientment fora de la v1** perquè reobre la decisió de no guardar historial/estadístiques (secció 7) i multiplica molt l'abast a dissenyar i construir abans de tenir res jugable. Es documenta sencera aquí per no perdre-la de cara a la v2.
+
+**⭐ XP — progressió permanent**
+- Es guanya XP jugant: completar un quiz, respostes correctes, bonus per 100%, bonus per reptes.
+- No es gasta; serveix per pujar de nivell (p. ex. "Nivell 7 → 820/1.000 XP").
+
+**🪙 Monedes — recurs gastable**
+- S'aconsegueixen jugant, es gasten en pistes. Connecta la recompensa directament amb el gameplay (no és cosmètic).
+
+**💡 Pistes** (ajuden, no donen la resposta directa) — cost en monedes, exemples a validar:
+
+| Pista | Efecte | Cost (exemple) |
+|---|---|---|
+| 50/50 | Elimina dues opcions incorrectes | 50 🪙 |
+| Pista | Dona informació relacionada amb la resposta | 75 🪙 |
+| +10 segons | Només té sentit al submode 60 seconds | 100 🪙 |
+| Segona oportunitat | Permet tornar a intentar la pregunta | 150 🪙 |
+
+⚠️ La pista "Pista" (informació relacionada) necessitaria un **camp nou al contingut de cada pregunta** al JSON (secció 8) — mateix cost d'autoria que vam descartar amb el multi-idioma del contingut, multiplicat per cada pregunta.
+
+**🔓 Nivells amb desbloquejos**: cada nivell podria desbloquejar una pista nova (p. ex. Nivell 1 → 50/50, Nivell 3 → Pista, Nivell 5 → +10 segons, Nivell 8 → Segona oportunitat), de manera que hi ha dues progressions creuades: nivell (què pots fer servir) i monedes (quantes vegades t'ho pots permetre).
+
+**🎯 Reptes diaris**: 3 reptes senzills que es renoven cada dia (p. ex. "Completa 1 quiz", "Aconsegueix 7/10", "Completa un 60 seconds"), cadascun amb recompensa d'XP.
+
+**🔥 Ratxa**: dies consecutius jugant, sense ser excessivament castigador si un dia no es juga.
+
+**🏅 Assoliments**: col·lecció d'objectius secundaris (primera partida, 10 preguntes correctes, primer 100%, 10 quizzes completats, 7 dies de ratxa, 100 preguntes correctes, etc.).
+
+**Canvis d'UX previstos**:
+- Home (ES-1.0): afegiria nivell + barra d'XP, ratxa, i progrés dels reptes del dia.
+- Resultat (ES-4.0): deixaria de ser només "puntuació + tornar a jugar" per mostrar XP guanyat, monedes guanyades, progrés de nivell i reptes completats — el resultat esdevé la recompensa en si mateixa.
+
+**Model de dades nou necessari** (Room, tot local, sense servidor ni compte — això no canvia):
+```
+UserProgress
+ ├── totalXp
+ ├── level
+ ├── coins
+ ├── currentStreak
+ ├── lastPlayedDate
+ ├── totalQuizzes
+ ├── totalCorrectAnswers
+ └── unlockedRewards
+
+CategoryProgress
+ ├── category
+ ├── xp
+ ├── quizzesCompleted
+ └── correctAnswers
+```
+No caldria guardar l'historial complet de cada partida, només l'estat agregat necessari per a la progressió.
+
+**Explícitament descartat, també per a la v2** (per no convertir-ho en un monstre): botiga complexa, avatars, battle pass, energia/vides, loot boxes, leaderboards, social/multijugador, backend, moneda real.
